@@ -1,0 +1,20 @@
+{
+  "name": "vision-sfg-vajiram-pw-bot",
+  "version": "1.0.0",
+  "description": "Unified Telegram bot: UPSC PDF Converter (ForumIAS SFG 50Q, Vajiram & Ravi 100Q, VisionIAS 100Q, PW Only IAS) + Question TXT File Fixer",
+  "private": true,
+  "scripts": {
+    "dev": "node start.js",
+    "deploy": "vercel --prod",
+    "setup-webhook": "node scripts/setWebhook.js",
+    "delete-webhook": "node scripts/deleteWebhook.js"
+  },
+  "dependencies": {
+    "node-fetch": "^2.7.0",
+    "pdf-parse": "^1.1.1",
+    "form-data": "^4.0.0"
+  },
+  "engines": {
+    "node": ">=18.x"
+  }
+}
