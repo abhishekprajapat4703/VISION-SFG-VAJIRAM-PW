@@ -25,8 +25,37 @@ const apiUrl = `https://api.telegram.org/bot${TOKEN}/setWebhook?url=${encodeURIC
 
 fetch(apiUrl)
   .then(r => r.json())
-  .then(data => {
-    if (data.ok) console.log('✅ Webhook set to:', webhookUrl);
+  .then(async data => {
+    if (data.ok) {
+      console.log('✅ Webhook set to:', webhookUrl);
+      
+      // Set bot commands list in Telegram menu
+      const cmdUrl = `https://api.telegram.org/bot${TOKEN}/setMyCommands`;
+      const cmdBody = {
+        commands: [
+          { command: 'start', description: 'Start the bot and show main menu' },
+          { command: 'sfg', description: 'ForumIAS SFG Mode (1 PDF)' },
+          { command: 'vajiram', description: 'Vajiram & Ravi Mode (2 PDFs)' },
+          { command: 'vision', description: 'VisionIAS Mode (2 PDFs)' },
+          { command: 'pw', description: 'PW Only IAS Mode (2 PDFs)' },
+          { command: 'fixer', description: 'TXT File Fixer Mode (.txt)' },
+          { command: 'cancel', description: 'Cancel current operation' },
+          { command: 'help', description: 'Show detailed usage help' }
+        ]
+      };
+      
+      const cmdRes = await fetch(cmdUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(cmdBody)
+      });
+      const cmdData = await cmdRes.json();
+      if (cmdData.ok) {
+        console.log('✅ Bot commands set successfully!');
+      } else {
+        console.error('❌ Failed to set bot commands:', cmdData.description);
+      }
+    }
     else console.error('❌ Failed:', data.description);
   })
   .catch(err => console.error('Error:', err));
